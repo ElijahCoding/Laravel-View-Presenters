@@ -4,14 +4,14 @@ namespace App;
 
 use App\Presenters\User\UserPresenter;
 use App\Presenters\User\UserSubscriptionPresenter;
+use App\Presenters\UsersPresenters;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Arr;
 
 class User extends Authenticatable
 {
-    use Notifiable;
+    use Notifiable, UsersPresenters;
 
     /**
      * The attributes that are mass assignable.
@@ -44,13 +44,4 @@ class User extends Authenticatable
         'subscription' => UserSubscriptionPresenter::class,
         'default' => UserPresenter::class,
     ];
-
-    public function presenter($type = 'default')
-    {
-        if (Arr::has($this->presenters, $type)) {
-            return new $this->presenters[$type]($this);
-        }
-
-        throw new \Exception('Presenter not found.');
-    }
 }
