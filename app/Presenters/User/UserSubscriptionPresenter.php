@@ -2,18 +2,12 @@
 
 namespace App\Presenters\User;
 
+use App\Presenters\Presenter;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
-class UserSubscriptionPresenter
+class UserSubscriptionPresenter extends Presenter
 {
-    protected $model;
-
-    public function __construct(Model $model)
-    {
-        $this->model = $model;
-    }
-
     public function currentPlan()
     {
         return Str::title('monthly');
