@@ -39,13 +39,15 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    public function presenter()
+    public function presenter($type = 'default')
     {
-        return new UserPresenter($this);
-    }
-
-    public function subscriptionPresenter()
-    {
-        return new UserSubscriptionPresenter($this);
+        switch ($type) {
+            case 'subscription':
+                return new UserSubscriptionPresenter($this);
+                break;
+            case 'default':
+            default:
+            return new UserPresenter($this);
+        }
     }
 }
