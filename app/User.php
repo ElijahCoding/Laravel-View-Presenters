@@ -7,6 +7,7 @@ use App\Presenters\User\UserSubscriptionPresenter;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Arr;
 
 class User extends Authenticatable
 {
@@ -39,15 +40,17 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
+    protected $presenters = [
+        'subscription' => UserSubscriptionPresenter::class,
+        'default' => UserPresenter::class,
+    ];
+
     public function presenter($type = 'default')
     {
-        switch ($type) {
-            case 'subscription':
-                return new UserSubscriptionPresenter($this);
-                break;
-            case 'default':
-            default:
-            return new UserPresenter($this);
+        if (Arr::has($this->presenters, $type)) {
+            return new $this->presenters[$type]($this);
         }
+
+        throw new \Exception('Presenter not found.');
     }
 }
