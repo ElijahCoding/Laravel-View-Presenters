@@ -12,4 +12,13 @@ abstract class Presenter
     {
         $this->model = $model;
     }
+
+    public function __get($property)
+    {
+        if (method_exists($this, $property)) {
+            return call_user_func([$this, $property]);
+        }
+
+        return null;
+    }
 }

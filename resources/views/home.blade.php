@@ -14,7 +14,7 @@
                         </div>
                     @endif
 
-                    {{ auth()->user()->subscriptionPresenter()->currentPlan() }}
+                    {{ auth()->user()->subscriptionPresenter()->currentPlan }}
                 </div>
             </div>
         </div>
